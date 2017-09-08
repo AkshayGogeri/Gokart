@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Service Provider</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="BS/css/bootstrap.min.css"/>
+<script src="jquery.js"></script>
+<script src="BS/js/bootstrap.min.js"></script><style>
+
+.chat {
+  width: 50%;
+  height: 60px;
+  margin: 1em ;
+  
+  border-radius: 12px;
+  background: darkseagreen;
+  position: relative;
+}
+.left {
+  border-bottom-left-radius: 0;
+}
+.right {
+  border-bottom-right-radius: 0;
+  margin-left:220px;
+}
+.chat::after {
+  content: '';
+  width: 1.5em;
+  height: 1.5em;
+  position: absolute;
+  bottom: 0;
+}
+.left::after {
+  left: 0;
+  transform: translateX(-100%);
+  background: radial-gradient(circle at 0 0, transparent, transparent 72%, darkseagreen 72%);
+}
+.right::after {
+  right: 0;
+  transform: translateX(100%);
+  background: radial-gradient(circle at 100% 0, transparent, transparent 72%, darkseagreen 42%);
+}
+
+#outer 
+{
+ border : 5px solid black ;
+ width:500px;
+ height:550px;
+ padding:5px;
+ background-color:lightgrey;
+}
+#inner 
+{
+ 
+ width:480px;
+ height:450px;
+ overflow-y:scroll;
+}
+
+.btn-success {
+   
+    font-size: 15px;
+    border-radius: 10px;
+    width:10%;    //Specify your width here
+}
+body{
+	background-color:grey;
+}
+</style>
+<script>
+function init()
+{
+	ev=new EventSource("http://localhost/wtproject/server2.php");
+	ev.addEventListener("Data",populate,true);
+	txt=document.getElementById("mssg")
+	chatbox=document.getElementById("inner")
+	sd=document.getElementById("snd");
+	sd.onclick=Send;
+}
+function populate(event)
+{		
+        newdiv=document.createElement("div");
+		newdiv.className="chat right";
+		newdiv.innerHTML+="<font color='#000'><strong>&nbsp;&nbsp;Customer:</strong></font></br>";
+		newdiv.innerHTML+="&nbsp;&nbsp;"+event.data+"<br/>";
+		//newdiv.style.backgroundColor = 'yellow';
+		//newdiv.style.borderRadius="25px";
+		newdiv.innerHTML+=" ";
+		
+		//newdiv.innerHTML=data.a+"+"+data.k+"="+data.n;
+		document.getElementById("inner").appendChild(newdiv);
+		
+	   // newdiv.innerHTML+="Friend : "+event.data+"<br/>";*/
+	
+}
+function Send()
+{
+
+	newdiv=document.createElement("div");
+	 newdiv.className = "chat left";
+	newdiv.innerHTML+="<font color='#000'><strong>&nbsp;&nbsp;Me:</strong></font><br/>"
+	newdiv.innerHTML+="&nbsp;&nbsp;"+txt.value+"<br/>";
+	
+	//newdiv.style.backgroundColor = 'grey';
+	//newdiv.style.borderRadius="25px";
+	document.getElementById("inner").appendChild(newdiv);
+	
+	xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=Update;
+	xhr.open("GET","update2.php?data="+txt.value,true);
+	xhr.send();
+}
+function Update()
+{
+	if(xhr.readyState==4 && xhr.status==200)
+	{
+		//Do nothing
+	}
+}
+</script>
+</head>
+<body onload="init()">
+
+ 
+    
+
+
+                 
+<div class="col-lg-6">
+    
+<div id="outer">
+<div id="inner">
+</div>
+<textarea id ="mssg" rows="2"cols="60" placeholder="type here and click send"></textarea><div class="container"><button type="button" class="btn btn-success" id="snd"/>Send </button></div>
+</div>
+</div>					
+                </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+</div>
+</div>
+</div>
+</body>
+</html>
