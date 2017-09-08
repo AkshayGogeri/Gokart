@@ -1,0 +1,21 @@
+#container{
+	border: 2px solid red;
+	display:none;
+}
+.notfound{
+	font-style:italic;
+	background-color:ivory;
+}
+.found{
+	font-style:normal;
+	background-color:white;
+}
+div.suggest{
+	color:red;
+	background-color:white;
+}
+div.suggest:hover{
+	color:white;
+	background-color:red;
+	cursor:pointer;
+}
